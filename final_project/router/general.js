@@ -61,9 +61,21 @@ public_users.get('/title/:title', function (req, res) {
 
 
 //  Get book review
-public_users.get('/review/:isbn',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+public_users.get('/review/:isbn', function (req, res) {
+    const isbn = req.params.isbn; // Get ISBN from request parameters
+
+    // Assuming books is an object where each key is an ISBN and value is the book details
+    const book = books[isbn]; // Look for the book with the given ISBN
+
+    // Check if the book exists
+    if (book) {
+        // If the book exists, send the reviews as the response
+        res.json(book.reviews);  // Return the reviews of the book
+    } else {
+        // If no book is found with the given ISBN, send a 404 error
+        res.status(404).send({ message: "No book found with this ISBN." });
+    }
 });
+
 
 module.exports.general = public_users;
